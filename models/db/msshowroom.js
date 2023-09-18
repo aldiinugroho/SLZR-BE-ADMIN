@@ -1,5 +1,6 @@
 const { DataTypes } = require('sequelize');
 const { sequelize } = require('../../config/sequelize');
+const msCar = require('./mscar');
 
 const msShowroom = sequelize.define('msShowroom', {
   // Model attributes are defined here
@@ -39,6 +40,14 @@ const msShowroom = sequelize.define('msShowroom', {
 }, {
   // Other model options go here
   tableName: "msShowroom"
+});
+
+msShowroom.hasMany(msCar, {
+  foreignKey: 'showroomId', // Specify the foreign key column in the msShowroom table
+});
+
+msCar.belongsTo(msShowroom, {
+  foreignKey: 'showroomId', // Specify the foreign key column in the msShowroom table
 });
 
 module.exports = msShowroom

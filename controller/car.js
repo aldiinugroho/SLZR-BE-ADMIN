@@ -1,5 +1,6 @@
 const { ModelRequestCarCreate } = require("../models/request/car/create")
 const { Response } = require("../response")
+const reqCar = require('../business/car');
 // const serviceMsAccount = require("../models/service/account")
 // const Kurasi = require("../outservice/kurasi/kurasi")
 
@@ -10,7 +11,8 @@ const car = {
         ...req.body,
         userId: req.decodedToken.userId,
       })
-      new Response().success(res,reqData)
+      const result = await reqCar.create(reqData)
+      new Response().success(res,result)
     } catch (error) {
       new Response().fail(res,error)
     }

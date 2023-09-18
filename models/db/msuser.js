@@ -1,6 +1,7 @@
 const { DataTypes } = require('sequelize');
 const { sequelize } = require('../../config/sequelize');
 const msShowroom = require('./msshowroom');
+const msCar = require('./mscar');
 // const msAuth = require('./msauth');
 // const msAccountDetailAddress = require('./msaccountdetailaddress');
 // const msAccountDetailPhone = require('./msaccountdetailphone');
@@ -42,6 +43,14 @@ msUser.hasMany(msShowroom, {
 });
 
 msShowroom.belongsTo(msUser, {
+  foreignKey: 'userId', // Specify the foreign key column in the msShowroom table
+});
+
+msUser.hasMany(msCar, {
+  foreignKey: 'userId', // Specify the foreign key column in the msShowroom table
+});
+
+msCar.belongsTo(msUser, {
   foreignKey: 'userId', // Specify the foreign key column in the msShowroom table
 });
 

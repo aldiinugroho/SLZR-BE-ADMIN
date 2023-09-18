@@ -1,16 +1,23 @@
 const { DataTypes } = require('sequelize');
 const { sequelize } = require('../../config/sequelize');
-const msCar = require('./mscar');
 
-const msCarBrand = sequelize.define('msCarBrand', {
+const msCarOtherPrice = sequelize.define('msCarOtherPrice', {
   // Model attributes are defined here
-  carBrandId: {
+  carOtherPriceId: {
     type: DataTypes.STRING,
     allowNull: false,
     primaryKey: true
   },
-  carBrandName: {
+  carId: {
     type: DataTypes.STRING,
+    allowNull: false,
+  },
+  carOtherPriceName: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  carOtherPrice: {
+    type: DataTypes.DECIMAL,
     allowNull: false,
   },
   createdAt: {
@@ -23,15 +30,7 @@ const msCarBrand = sequelize.define('msCarBrand', {
   }
 }, {
   // Other model options go here
-  tableName: "msCarBrand"
+  tableName: "msCarOtherPrice"
 });
 
-msCarBrand.hasMany(msCar, {
-  foreignKey: 'carBrandId', // Specify the foreign key column in the msShowroom table
-});
-
-msCar.belongsTo(msCarBrand, {
-  foreignKey: 'carBrandId', // Specify the foreign key column in the msShowroom table
-});
-
-module.exports = msCarBrand
+module.exports = msCarOtherPrice

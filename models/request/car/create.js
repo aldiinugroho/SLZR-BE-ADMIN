@@ -60,6 +60,7 @@ class ModelRequestCarCreate {
     carSTNK = false,
     carBPKB = false,
     carSellPrice = 0,
+    carBuyPrice = 0,
     carImage = [new ModelRequestCarImageCreate({})],
     carOtherPrice = [new ModelRequestCarOtherPriceCreate({})]
   }) {
@@ -76,6 +77,7 @@ class ModelRequestCarCreate {
     this.carSTNK = new EmptyChecker().emptyBool(carSTNK, "CarSTNK tidak boleh kosong.")
     this.carBPKB = new EmptyChecker().emptyBool(carBPKB, "carBPKB tidak boleh kosong.")
     this.carSellPrice = new EmptyChecker().emptyIntOrZero(carSellPrice, "carSellPrice tidak boleh kosong.")
+    this.carBuyPrice = new EmptyChecker().emptyIntOrZero(carBuyPrice, "carBuyPrice tidak boleh kosong.")
 
     // car image
     new EmptyChecker().emptyArray(carImage, "carImage tidak boleh kosong minimal 1.")
