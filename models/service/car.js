@@ -3,6 +3,8 @@ const { ModelRequestCarCreate } = require("../request/car/create")
 const msCar = require("../db/mscar")
 const msCarImage = require("../db/mscarimage")
 const msCarOtherPrice = require("../db/mscarotherprice")
+const msShowroom = require("../db/msshowroom")
+const msCarBrand = require("../db/mscarbrand")
 
 async function createCarXCarImageXCarOtherPrice(reqData = new ModelRequestCarCreate({})) {
   // using transaction
@@ -21,6 +23,37 @@ async function createCarXCarImageXCarOtherPrice(reqData = new ModelRequestCarCre
   }
 }
 
+async function list(userId = "") {
+  try {
+    // insert new to mscar
+    const result = await msCar.findAll({
+      where: {
+        userId: userId
+      },
+      attributes: { exclude: ['showroomId','carBrandId','userId'] },
+      include: [
+        {
+          model: msShowroom,
+        },
+        {
+          model: msCarBrand,
+        },
+        {
+          model: msCarImage,
+        },
+        {
+          model: msCarOtherPrice,
+        }
+      ],
+      nest: true
+    })
+    return result
+  } catch (error) {
+    throw "Error msCar|msCarImage|msCarOtherPrice list - db execution"
+  }
+}
+
 module.exports = {
-  createCarXCarImageXCarOtherPrice
+  createCarXCarImageXCarOtherPrice,
+  list
 }

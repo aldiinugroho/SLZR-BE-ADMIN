@@ -16,6 +16,14 @@ const car = {
     } catch (error) {
       new Response().fail(res,error)
     }
+  },
+  list: async (req, res) => {
+    try {
+      const result = await reqCar.list(req.decodedToken.userId)
+      new Response().success(res,result)
+    } catch (error) {
+      new Response().fail(res,error)
+    }
   }
 }
 
