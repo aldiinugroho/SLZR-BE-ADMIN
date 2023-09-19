@@ -112,22 +112,34 @@ async function updateCarXCarImageXCarOtherPrice(reqData = new ModelRequestCarUpd
   const t = await sequelize.transaction();
   try {
     // delete car image
+    await msCarImage.destroy({
+      where: {
+        carId: reqData.carId
+      },
+      transaction: t
+    })
     // delete car other price
-
+    await msCarOtherPrice.destroy({
+      where: {
+        carId: reqData.carId
+      },
+      transaction: t
+    })
     // update car
-
+    await msCar.update(reqData,{
+      where: {
+        carId: reqData.carId
+      },
+      transaction: t
+    })
     // insert car image
+    await msCarImage.bulkCreate(reqData.carImage, { transaction: t })
     // insert car other price
-
-    // await msCar.create(reqData, { transaction: t })
-    // // insert new to mscarimage
-    // await msCarImage.bulkCreate(reqData.carImage, { transaction: t })
-    // // insert new to mscarotherprice
-    // await msCarOtherPrice.bulkCreate(reqData.carOtherPrice, { transaction: t })
-    // await t.commit();
+    await msCarOtherPrice.bulkCreate(reqData.carOtherPrice, { transaction: t })
+    await t.commit();
   } catch (error) {
     await t.rollback();
-    throw "Error msCar|msCarImage|msCarOtherPrice createCarXCarImageXCarOtherPrice - db execution"
+    throw "Error msCar|msCarImage|msCarOtherPrice updateCarXCarImageXCarOtherPrice - db execution"
   }
 }
 

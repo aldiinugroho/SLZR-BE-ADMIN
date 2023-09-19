@@ -56,7 +56,8 @@ const car = {
         ...req.body,
         userId: req.decodedToken.userId
       })
-      new Response().success(res,reqData)
+      const result = await reqCar.update(reqData)
+      new Response().success(res,result)
     } catch (error) {
       new Response().fail(res,error)
     }

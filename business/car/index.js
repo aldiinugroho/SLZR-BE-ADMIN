@@ -56,7 +56,7 @@ const update = async (reqData = new ModelRequestCarUpdate({})) => {
     // perform update
     await serviceCar.updateCarXCarImageXCarOtherPrice(reqData)
     // get updated list
-    const result = await serviceCar.list(userId)
+    const result = await serviceCar.list(reqData.userId)
     return result
   } catch (error) {
     throw error
