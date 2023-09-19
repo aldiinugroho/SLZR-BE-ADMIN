@@ -38,6 +38,10 @@ const msCar = sequelize.define('msCar', {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  carYear: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
   carFuel: {
     type: DataTypes.STRING,
     allowNull: false,

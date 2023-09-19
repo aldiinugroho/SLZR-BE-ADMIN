@@ -9,6 +9,7 @@ class ModelRequestCarUpdate {
   carPlate = ""
   carName = ""
   carDescription = ""
+  carYear = ""
   carTransmission = ""
   carFuel = ""
   carTax = new Date()
@@ -26,6 +27,7 @@ class ModelRequestCarUpdate {
     carPlate = "",
     carName = "",
     carDescription = "",
+    carYear = "",
     carTransmission = "",
     carFuel = "",
     carTax = new Date(),
@@ -44,6 +46,7 @@ class ModelRequestCarUpdate {
     this.carPlate = new EmptyChecker().emptyString(carPlate, "carPlate tidak boleh kosong.")
     this.carName = new EmptyChecker().emptyString(carName, "carName tidak boleh kosong.")
     this.carDescription = new EmptyChecker().emptyString(carDescription, "carDescription tidak boleh kosong.")
+    this.carYear = new EmptyChecker().emptyString(carYear, "carYear tidak boleh kosong.")
     this.carTransmission = new EmptyChecker().emptyString(carTransmission, "carTransmission tidak boleh kosong.")
     this.carFuel = new EmptyChecker().emptyString(carFuel, "carFuel tidak boleh kosong.")
     this.carTax = new EmptyChecker().emptyDate(carTax, "carTax tidak boleh kosong.")
