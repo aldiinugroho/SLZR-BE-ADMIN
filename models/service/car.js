@@ -1,10 +1,11 @@
-const { sequelize } = require("../../config/sequelize");
+const { sequelize, Op } = require("../../config/sequelize");
 const { ModelRequestCarCreate } = require("../request/car/create")
 const msCar = require("../db/mscar")
 const msCarImage = require("../db/mscarimage")
 const msCarOtherPrice = require("../db/mscarotherprice")
 const msShowroom = require("../db/msshowroom")
-const msCarBrand = require("../db/mscarbrand")
+const msCarBrand = require("../db/mscarbrand");
+const { ModelRequestCarDetail } = require("../request/car/detail");
 
 async function createCarXCarImageXCarOtherPrice(reqData = new ModelRequestCarCreate({})) {
   // using transaction
@@ -34,6 +35,7 @@ async function list(userId = "") {
       include: [
         {
           model: msShowroom,
+          attributes: { exclude: ['softdelete'] },
         },
         {
           model: msCarBrand,
@@ -53,7 +55,42 @@ async function list(userId = "") {
   }
 }
 
+async function detail(reqData = new ModelRequestCarDetail({})) {
+  try {
+    // insert new to mscar
+    const result = await msCar.findOne({
+      where: {
+        [Op.and]: [
+          {userId: reqData.userId},
+          {carId: reqData.carId}
+        ]
+      },
+      attributes: { exclude: ['showroomId','carBrandId','userId'] },
+      include: [
+        {
+          model: msShowroom,
+          attributes: { exclude: ['softdelete'] },
+        },
+        {
+          model: msCarBrand,
+        },
+        {
+          model: msCarImage,
+        },
+        {
+          model: msCarOtherPrice,
+        }
+      ],
+      nest: true
+    })
+    return result
+  } catch (error) {
+    throw "Error msCar|msCarImage|msCarOtherPrice detail - db execution"
+  }
+}
+
 module.exports = {
   createCarXCarImageXCarOtherPrice,
-  list
+  list,
+  detail
 }
