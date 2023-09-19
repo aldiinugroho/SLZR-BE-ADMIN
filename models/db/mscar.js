@@ -62,6 +62,10 @@ const msCar = sequelize.define('msCar', {
     type: DataTypes.DECIMAL,
     allowNull: false,
   },
+  softdelete: {
+    type: DataTypes.BOOLEAN,
+    allowNull: true,
+  },
   createdAt: {
     type: DataTypes.DATE,
     allowNull: false,

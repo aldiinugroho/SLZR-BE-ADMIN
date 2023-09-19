@@ -29,9 +29,10 @@ async function list(userId = "") {
     // insert new to mscar
     const result = await msCar.findAll({
       where: {
-        userId: userId
+        userId: userId,
+        softdelete: false
       },
-      attributes: { exclude: ['showroomId','carBrandId','userId'] },
+      attributes: { exclude: ['showroomId','carBrandId','userId','softdelete'] },
       include: [
         {
           model: msShowroom,
@@ -62,10 +63,11 @@ async function detail(reqData = new ModelRequestCarDetail({})) {
       where: {
         [Op.and]: [
           {userId: reqData.userId},
-          {carId: reqData.carId}
+          {carId: reqData.carId},
+          {softdelete: false}
         ]
       },
-      attributes: { exclude: ['showroomId','carBrandId','userId'] },
+      attributes: { exclude: ['showroomId','carBrandId','userId','softdelete'] },
       include: [
         {
           model: msShowroom,
@@ -89,8 +91,24 @@ async function detail(reqData = new ModelRequestCarDetail({})) {
   }
 }
 
+async function softDelete(reqData = "") {
+  try {
+    // update softdelete new to mscar
+    await msCar.update({
+      softdelete: true,
+    },{
+      where: {
+        carId: reqData
+      }
+    })
+  } catch (error) {
+    throw "Error msCar|msCarImage|msCarOtherPrice softDelete - db execution"
+  }
+}
+
 module.exports = {
   createCarXCarImageXCarOtherPrice,
   list,
-  detail
+  detail,
+  softDelete
 }

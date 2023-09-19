@@ -37,6 +37,17 @@ const car = {
     } catch (error) {
       new Response().fail(res,error)
     }
+  },
+  delete: async (req, res) => {
+    try {
+      const result = await reqCar.softDelete({
+        carId: req.params?.carId,
+        userId: req.decodedToken.userId
+      })
+      new Response().success(res,result)
+    } catch (error) {
+      new Response().fail(res,error)
+    }
   }
 }
 

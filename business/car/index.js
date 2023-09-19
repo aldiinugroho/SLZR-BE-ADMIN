@@ -35,8 +35,24 @@ const detail = async (reqData = new ModelRequestCarDetail({})) => {
   }
 }
 
+const softDelete = async ({
+  carId = "",
+  userId = ""
+}) => {
+  try {
+    // soft delete
+    await serviceCar.softDelete(carId)
+    // get list updated
+    const result = await serviceCar.list(userId)
+    return result
+  } catch (error) {
+    throw error
+  }
+}
+
 module.exports = {
   create,
   list,
-  detail
+  detail,
+  softDelete
 }

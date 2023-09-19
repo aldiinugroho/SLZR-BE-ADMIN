@@ -6,9 +6,12 @@ const { middleware } = require('../../middleware');
 
 // GET
 router.get("/list", middleware, car.list);
-router.get("/detail/:carId", middleware, car.detail);
+router.get("/:carId", middleware, car.detail);
 
 // POST
 router.post("/create", middleware, car.create);
+
+// DELETE
+router.delete("/:carId", middleware, car.delete);
 
 module.exports = router;
