@@ -6,6 +6,7 @@ const msCarOtherPrice = require("../db/mscarotherprice")
 const msShowroom = require("../db/msshowroom")
 const msCarBrand = require("../db/mscarbrand");
 const { ModelRequestCarDetail } = require("../request/car/detail");
+const { ModelRequestCarUpdate } = require("../request/car/update");
 
 async function createCarXCarImageXCarOtherPrice(reqData = new ModelRequestCarCreate({})) {
   // using transaction
@@ -106,9 +107,35 @@ async function softDelete(reqData = "") {
   }
 }
 
+async function updateCarXCarImageXCarOtherPrice(reqData = new ModelRequestCarUpdate({})) {
+  // using transaction
+  const t = await sequelize.transaction();
+  try {
+    // delete car image
+    // delete car other price
+
+    // update car
+
+    // insert car image
+    // insert car other price
+
+    // await msCar.create(reqData, { transaction: t })
+    // // insert new to mscarimage
+    // await msCarImage.bulkCreate(reqData.carImage, { transaction: t })
+    // // insert new to mscarotherprice
+    // await msCarOtherPrice.bulkCreate(reqData.carOtherPrice, { transaction: t })
+    // await t.commit();
+  } catch (error) {
+    await t.rollback();
+    throw "Error msCar|msCarImage|msCarOtherPrice createCarXCarImageXCarOtherPrice - db execution"
+  }
+}
+
+
 module.exports = {
   createCarXCarImageXCarOtherPrice,
   list,
   detail,
-  softDelete
+  softDelete,
+  updateCarXCarImageXCarOtherPrice
 }

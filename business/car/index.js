@@ -1,6 +1,7 @@
 const Configpass = require("../../config/configPass");
 const { ModelRequestCarCreate } = require("../../models/request/car/create");
 const { ModelRequestCarDetail } = require("../../models/request/car/detail");
+const { ModelRequestCarUpdate } = require("../../models/request/car/update");
 const serviceCar = require("../../models/service/car")
 
 const create = async (reqData = new ModelRequestCarCreate({})) => {
@@ -50,9 +51,22 @@ const softDelete = async ({
   }
 }
 
+const update = async (reqData = new ModelRequestCarUpdate({})) => {
+  try {
+    // perform update
+    await serviceCar.updateCarXCarImageXCarOtherPrice(reqData)
+    // get updated list
+    const result = await serviceCar.list(userId)
+    return result
+  } catch (error) {
+    throw error
+  }
+}
+
 module.exports = {
   create,
   list,
   detail,
-  softDelete
+  softDelete,
+  update
 }

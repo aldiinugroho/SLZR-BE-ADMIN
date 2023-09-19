@@ -11,6 +11,9 @@ router.get("/:carId", middleware, car.detail);
 // POST
 router.post("/create", middleware, car.create);
 
+// PATCH
+router.patch("/update", middleware, car.update);
+
 // DELETE
 router.delete("/:carId", middleware, car.delete);
 

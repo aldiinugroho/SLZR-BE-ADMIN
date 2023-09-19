@@ -2,6 +2,7 @@ const { ModelRequestCarCreate } = require("../models/request/car/create")
 const { Response } = require("../response")
 const reqCar = require('../business/car');
 const { ModelRequestCarDetail } = require("../models/request/car/detail");
+const { ModelRequestCarUpdate } = require("../models/request/car/update");
 // const serviceMsAccount = require("../models/service/account")
 // const Kurasi = require("../outservice/kurasi/kurasi")
 
@@ -45,6 +46,17 @@ const car = {
         userId: req.decodedToken.userId
       })
       new Response().success(res,result)
+    } catch (error) {
+      new Response().fail(res,error)
+    }
+  },
+  update: async (req, res) => {
+    try {
+      const reqData = new ModelRequestCarUpdate({
+        ...req.body,
+        userId: req.decodedToken.userId
+      })
+      new Response().success(res,reqData)
     } catch (error) {
       new Response().fail(res,error)
     }
