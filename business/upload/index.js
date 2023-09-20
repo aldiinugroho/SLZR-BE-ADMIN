@@ -20,7 +20,7 @@ const create = async (reqData = [
       buffer: reqData[0].buffer,
       mimetype: reqData[0].mimetype
     }
-    const result = await gdrive.saveFile(dataToSubmit.fieldname,dataToSubmit.buffer,dataToSubmit.mimetype)
+    const result = "https://drive.google.com/uc?export=view&id=" + await gdrive.saveFile(dataToSubmit.fieldname,dataToSubmit.buffer,dataToSubmit.mimetype)
     return result
   } catch (error) {
     throw error
