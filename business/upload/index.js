@@ -8,9 +8,7 @@ const { GDriver } = require("../gdrive");
 
 const create = async (reqData = [
   {
-    fieldname: null,
     originalname: null,
-    encoding: null,
     mimetype: null,
     buffer: null
   }
