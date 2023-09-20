@@ -10,11 +10,11 @@ const reqUpload = require('../business/upload');
 const upload = {
   create: async (req, res) => {
     try {
-      const { body, files } = req;
-      if (files.length === 0) {
-        throw "gambar tidak boleh kosong"
+      const { body, file } = req;
+      if (file === undefined || file === null) {
+        throw "gambar perlu diupload."
       }
-      const result = await reqUpload.create(files)
+      const result = await reqUpload.create(file)
       new Response().success(res,result)
     } catch (error) {
       new Response().fail(res,error)

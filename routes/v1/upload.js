@@ -6,6 +6,6 @@ const { mastermiddleware } = require('../../middleware');
 const multer = require('multer');
 const uploadWithMulter = multer();
 
-router.post("/create", uploadWithMulter.any(), upload.create);
+router.post("/create", uploadWithMulter.single('file'), upload.create);
 
 module.exports = router;
