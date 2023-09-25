@@ -35,7 +35,7 @@ const create = async (reqData = new ModelCarBookKeepingCreate({})) => {
       }
       if (reqData.carBookKeepingPaymentToolsId === "CBKPT02") {
         // insert to car book keeping
-        await serviceCarBookKeeping.carBookKeepingXCarLeasingCreate(reqData)
+        await serviceCarBookKeeping.carBookKeepingXCarLeasingCreate(reqData, "SUCCESS")
         // set car to SOLD
         await serviceCar.updateCarStatus({
           carId: reqData.carId,

@@ -14,11 +14,14 @@ async function carBookKeepingPaymentToolsList() {
   }
 }
 
-async function carBookKeepingXCarLeasingCreate(reqData = new ModelCarBookKeepingCreate({})) {
+async function carBookKeepingXCarLeasingCreate(reqData = new ModelCarBookKeepingCreate({}), carBookKeepingStatus = "ON PROGRESS") {
   const t = await sequelize.transaction();
   try {
     // insert new to msCarBookKeeping
-    await msCarBookKeeping.create(reqData, { transaction: t })
+    await msCarBookKeeping.create({
+      ...reqData,
+      carBookKeepingStatus: carBookKeepingStatus
+    }, { transaction: t })
     // insert new to msCarLeasing
     if (reqData.carLeasing !== null) {
       await msCarLeasing.create(reqData.carLeasing, { transaction: t })

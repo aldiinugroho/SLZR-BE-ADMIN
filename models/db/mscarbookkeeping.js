@@ -41,6 +41,10 @@ const msCarBookKeeping = sequelize.define('msCarBookKeeping', {
     type: DataTypes.DECIMAL,
     allowNull: false,
   },
+  carBookKeepingStatus: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
   createdAt: {
     type: DataTypes.DATE,
     allowNull: false,

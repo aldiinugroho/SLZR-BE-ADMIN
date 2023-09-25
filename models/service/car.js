@@ -33,7 +33,7 @@ async function list(userId = "") {
         [Op.and]: [
           {userId: userId},
           {softdelete: false},
-          {carStatus: "READY"}
+          // {carStatus: "READY"}
         ]
       },
       attributes: { exclude: ['showroomId','carBrandId','userId','softdelete'] },
