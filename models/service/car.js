@@ -143,11 +143,29 @@ async function updateCarXCarImageXCarOtherPrice(reqData = new ModelRequestCarUpd
   }
 }
 
+async function updateCarStatus({
+  carId = "",
+  carStatus = "READY"
+}) {
+  try {
+    // update softdelete new to mscar
+    await msCar.update({
+      carStatus: carStatus,
+    },{
+      where: {
+        carId: carId
+      }
+    })
+  } catch (error) {
+    throw "Error msCar updateCarStatus - db execution"
+  }
+}
 
 module.exports = {
   createCarXCarImageXCarOtherPrice,
   list,
   detail,
   softDelete,
-  updateCarXCarImageXCarOtherPrice
+  updateCarXCarImageXCarOtherPrice,
+  updateCarStatus
 }

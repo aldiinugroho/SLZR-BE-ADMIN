@@ -1,4 +1,6 @@
+const { ModelCarBookKeepingCreate } = require("../../models/request/carbookkeeping/create")
 const serviceCarBookKeeping = require("../../models/service/carbookkeeping")
+const serviceCar = require("../../models/service/car")
 
 const paymentToolsList = async () => {
   try {
@@ -10,6 +12,54 @@ const paymentToolsList = async () => {
   }
 }
 
+const create = async (reqData = new ModelCarBookKeepingCreate({})) => {
+  try {
+    // carBookKeepingPaymentToolsId
+    // CBKPT01: KREDIT
+    // CBKPT02: CASH
+
+    // carBuyFromId
+    // CBFI1: DIRECT
+    // CBFI2: WEBSITE
+
+    // only for direct
+    if (reqData.carBuyFromId === "CBFI1") {
+      if (reqData.carBookKeepingPaymentToolsId === "CBKPT01") {
+        // insert to car book keeping & car leasing
+        await serviceCarBookKeeping.carBookKeepingXCarLeasingCreate(reqData)
+        // set car to BOOKED
+        await serviceCar.updateCarStatus({
+          carId: reqData.carId,
+          carStatus: "BOOKED"
+        })
+      }
+      if (reqData.carBookKeepingPaymentToolsId === "CBKPT02") {
+        // insert to car book keeping
+        await serviceCarBookKeeping.carBookKeepingXCarLeasingCreate(reqData)
+        // set car to SOLD
+        await serviceCar.updateCarStatus({
+          carId: reqData.carId,
+          carStatus: "SOLD"
+        })
+      }
+    }
+
+    // only for website
+    if (reqData.carBuyFromId === "CBFI2") {
+      // insert to car book keeping
+      await serviceCarBookKeeping.carBookKeepingXCarLeasingCreate(reqData)
+      // set car to BOOKED
+      await serviceCar.updateCarStatus({
+        carId: reqData.carId,
+        carStatus: "BOOKED"
+      })
+    }
+  } catch (error) {
+    throw error
+  }
+}
+
 module.exports = {
-  paymentToolsList
+  paymentToolsList,
+  create
 }

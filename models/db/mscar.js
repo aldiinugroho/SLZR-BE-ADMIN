@@ -67,6 +67,10 @@ const msCar = sequelize.define('msCar', {
     type: DataTypes.DECIMAL,
     allowNull: false,
   },
+  carStatus: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
   softdelete: {
     type: DataTypes.BOOLEAN,
     allowNull: true,
