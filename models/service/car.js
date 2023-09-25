@@ -30,8 +30,11 @@ async function list(userId = "") {
     // insert new to mscar
     const result = await msCar.findAll({
       where: {
-        userId: userId,
-        softdelete: false
+        [Op.and]: [
+          {userId: userId},
+          {softdelete: false},
+          {carStatus: "READY"}
+        ]
       },
       attributes: { exclude: ['showroomId','carBrandId','userId','softdelete'] },
       include: [
