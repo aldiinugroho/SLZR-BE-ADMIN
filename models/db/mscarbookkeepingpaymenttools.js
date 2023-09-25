@@ -1,5 +1,6 @@
 const { DataTypes } = require('sequelize');
 const { sequelize } = require('../../config/sequelize');
+const msCarBookKeeping = require('./mscarbookkeeping');
 
 const msCarBookKeepingPaymentTools = sequelize.define('msCarBookKeepingPaymentTools', {
   // Model attributes are defined here
@@ -9,7 +10,7 @@ const msCarBookKeepingPaymentTools = sequelize.define('msCarBookKeepingPaymentTo
     primaryKey: true
   },
   carBookKeepingPaymentTools: {
-    type: DataTypes.DECIMAL,
+    type: DataTypes.STRING,
     allowNull: false,
   },
   createdAt: {
@@ -23,6 +24,14 @@ const msCarBookKeepingPaymentTools = sequelize.define('msCarBookKeepingPaymentTo
 }, {
   // Other model options go here
   tableName: "msCarBookKeepingPaymentTools"
+});
+
+msCarBookKeepingPaymentTools.hasOne(msCarBookKeeping, {
+  foreignKey: 'carBookKeepingPaymentToolsId', // Specify the foreign key column in the msShowroom table
+});
+
+msCarBookKeeping.belongsTo(msCarBookKeepingPaymentTools, {
+  foreignKey: 'carBookKeepingPaymentToolsId', // Specify the foreign key column in the msShowroom table
 });
 
 module.exports = msCarBookKeepingPaymentTools

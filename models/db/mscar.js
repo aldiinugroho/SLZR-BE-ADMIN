@@ -2,6 +2,7 @@ const { DataTypes } = require('sequelize');
 const { sequelize } = require('../../config/sequelize');
 const msCarImage = require('./mscarimage');
 const msCarOtherPrice = require('./mscarotherprice');
+const msCarBookKeeping = require('./mscarbookkeeping');
 
 const msCar = sequelize.define('msCar', {
   // Model attributes are defined here
@@ -99,5 +100,12 @@ msCarOtherPrice.belongsTo(msCar, {
   foreignKey: 'carId', // Specify the foreign key column in the msShowroom table
 });
 
+msCar.hasMany(msCarBookKeeping, {
+  foreignKey: 'carId', // Specify the foreign key column in the msShowroom table
+});
+
+msCarBookKeeping.belongsTo(msCar, {
+  foreignKey: 'carId', // Specify the foreign key column in the msShowroom table
+});
 
 module.exports = msCar
