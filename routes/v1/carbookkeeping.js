@@ -6,6 +6,7 @@ const { middleware } = require('../../middleware');
 
 // GET
 router.get("/payment-tools/list", middleware, carbookkeeping.paymentToolsList);
+router.get("/car-status/:carStatus", middleware, carbookkeeping.listByCarStatus);
 
 // POST
 router.post("/create", middleware, carbookkeeping.create);

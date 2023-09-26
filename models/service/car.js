@@ -164,11 +164,35 @@ async function updateCarStatus({
   }
 }
 
+async function getCarStatus(carId = "") {
+  try {
+    // update softdelete new to mscar
+    const result = await msCar.findAll({
+      where: {
+        [Op.and]: [
+          {carId: carId},
+          {carStatus: {
+            [Op.not]: "READY"
+          }}
+        ]
+      }
+    })
+    if (result.length === 0) {
+      return false
+    } else {
+      return true
+    }
+  } catch (error) {
+    throw "Error msCar getCarStatus - db execution"
+  }
+}
+
 module.exports = {
   createCarXCarImageXCarOtherPrice,
   list,
   detail,
   softDelete,
   updateCarXCarImageXCarOtherPrice,
-  updateCarStatus
+  updateCarStatus,
+  getCarStatus
 }

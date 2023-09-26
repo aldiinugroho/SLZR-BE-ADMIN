@@ -2,6 +2,7 @@ const { ModelCarBookKeepingCreate } = require("../../models/request/carbookkeepi
 const serviceCarBookKeeping = require("../../models/service/carbookkeeping")
 const serviceCar = require("../../models/service/car")
 const { ModelRequestCarBookKeepingCancel } = require("../../models/request/carbookkeeping/cancel")
+const { ModelRequestListByCarStatus } = require("../../models/request/carbookkeeping/listbycarstatus")
 
 const paymentToolsList = async () => {
   try {
@@ -15,6 +16,11 @@ const paymentToolsList = async () => {
 
 const create = async (reqData = new ModelCarBookKeepingCreate({})) => {
   try {
+
+    //check if theres already booked
+    const checkready = await serviceCar.getCarStatus(reqData.carId)
+    if (checkready === true) throw "Mobil telah Ter-Jual ataupun Ter-Booked"
+
     // carBookKeepingPaymentToolsId
     // CBKPT01: KREDIT
     // CBKPT02: CASH
@@ -70,8 +76,19 @@ const cancel = async (reqData = new ModelRequestCarBookKeepingCancel({})) => {
   }
 }
 
+const listByCarStatus = async (reqData = new ModelRequestListByCarStatus({})) => {
+  try {
+    // get car list
+    const result = await serviceCarBookKeeping.getListByCarStatus(reqData)
+    return result
+  } catch (error) {
+    throw error
+  }
+}
+
 module.exports = {
   paymentToolsList,
   create,
-  cancel
+  cancel,
+  listByCarStatus
 }
