@@ -164,6 +164,9 @@ async function getDetail(reqData = new ModelRequestCarBookKeepingDetail({})) {
           ]
         },
       ],
+      order: [
+        [msCarBookKeeping, 'updatedAt', 'DESC']
+      ],
       nest: true
     })
     return result
@@ -191,6 +194,9 @@ async function carBookKeepingDetail(reqData = "") {
         {
           model: msCarLeasing
         },
+      ],
+      order: [
+        ['updatedAt', 'DESC']
       ],
       nest: true
     })
