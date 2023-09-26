@@ -3,6 +3,7 @@ const reqCarBookKeeping = require("../business/carbookkeeping")
 const { ModelCarBookKeepingCreate } = require("../models/request/carbookkeeping/create")
 const { ModelRequestCarBookKeepingCancel } = require("../models/request/carbookkeeping/cancel")
 const { ModelRequestListByCarStatus } = require("../models/request/carbookkeeping/listbycarstatus")
+const { ModelRequestCarBookKeepingDetail } = require("../models/request/carbookkeeping/detail")
 // const Kurasi = require("../outservice/kurasi/kurasi")
 
 const carbookkeeping = {
@@ -40,6 +41,18 @@ const carbookkeeping = {
                 userId: req.decodedToken.userId
             })
             const result = await reqCarBookKeeping.listByCarStatus(reqData)
+            new Response().success(res,result)
+        } catch (error) {
+            new Response().fail(res,error)
+        }
+    },
+    detail: async (req, res) => {
+        try {
+            const reqData = new ModelRequestCarBookKeepingDetail({
+                carId: req.params?.carId,
+                userId: req.decodedToken.userId
+            })
+            const result = await reqCarBookKeeping.detail(reqData)
             new Response().success(res,result)
         } catch (error) {
             new Response().fail(res,error)

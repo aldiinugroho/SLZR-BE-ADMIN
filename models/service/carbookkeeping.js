@@ -11,6 +11,7 @@ const msCarBrand = require("../db/mscarbrand");
 const msCarImage = require("../db/mscarimage");
 const msCarOtherPrice = require("../db/mscarotherprice");
 const msCarBuyFrom = require("../db/mscarbuyfrom");
+const { ModelRequestCarBookKeepingDetail } = require("../request/carbookkeeping/detail");
 
 async function carBookKeepingPaymentToolsList() {
   try {
@@ -119,9 +120,57 @@ async function getListByCarStatus(reqData = new ModelRequestListByCarStatus({}))
   }
 }
 
+async function getDetail(reqData = new ModelRequestCarBookKeepingDetail({})) {
+  try {
+    // get list
+    const result = await msCar.findOne({
+      where: {
+        [Op.and]: [
+          {userId: reqData.userId},
+          {carId: reqData.carId},
+          {softdelete: false}
+        ]
+      },
+      include: [
+        {
+          model: msShowroom
+        },
+        {
+          model: msCarBrand
+        },
+        {
+          model: msCarImage
+        },
+        {
+          model: msCarOtherPrice
+        },
+        {
+          model: msCarBookKeeping,
+          include: [
+            {
+              model: msCarBookKeepingPaymentTools
+            },
+            {
+              model: msCarBuyFrom
+            },
+            {
+              model: msCarLeasing
+            },
+          ]
+        },
+      ],
+      nest: true
+    })
+    return result
+  } catch (error) {
+    throw "Error msCar|msShowroom|msCarBrand|msCarImage|msCarOtherPrice|msCarBookKeeping|msCarBookKeepingPaymentTools|msCarBuyFrom|msCarLeasing getDetail - db execution"
+  }
+}
+
 module.exports = {
   carBookKeepingPaymentToolsList,
   carBookKeepingXCarLeasingCreate,
   cancelCarBookKeeping,
-  getListByCarStatus
+  getListByCarStatus,
+  getDetail
 }
