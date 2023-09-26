@@ -167,10 +167,39 @@ async function getDetail(reqData = new ModelRequestCarBookKeepingDetail({})) {
   }
 }
 
+async function carBookKeepingDetail(reqData = "") {
+  try {
+    // get list
+    const result = await msCarBookKeeping.findOne({
+      where: {
+        [Op.and]: [
+          {carBookKeepingId: reqData}
+        ]
+      },
+      include: [
+        {
+          model: msCarBookKeepingPaymentTools
+        },
+        {
+          model: msCarBuyFrom
+        },
+        {
+          model: msCarLeasing
+        },
+      ],
+      nest: true
+    })
+    return result
+  } catch (error) {
+    throw "Error msCarBookKeeping|msCarBookKeepingPaymentTools|msCarBuyFrom|msCarLeasing carBookKeepingDetail - db execution"
+  }
+}
+
 module.exports = {
   carBookKeepingPaymentToolsList,
   carBookKeepingXCarLeasingCreate,
   cancelCarBookKeeping,
   getListByCarStatus,
-  getDetail
+  getDetail,
+  carBookKeepingDetail
 }

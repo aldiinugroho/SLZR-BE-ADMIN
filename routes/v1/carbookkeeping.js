@@ -8,6 +8,7 @@ const { middleware } = require('../../middleware');
 router.get("/payment-tools/list", middleware, carbookkeeping.paymentToolsList);
 router.get("/car-status/:carStatus", middleware, carbookkeeping.listByCarStatus);
 router.get("/car/:carId", middleware, carbookkeeping.detail);
+router.get("/:carBookKeepingId", middleware, carbookkeeping.carBookKeepingDetail);
 
 // POST
 router.post("/create", middleware, carbookkeeping.create);

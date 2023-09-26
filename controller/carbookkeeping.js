@@ -57,6 +57,14 @@ const carbookkeeping = {
         } catch (error) {
             new Response().fail(res,error)
         }
+    },
+    carBookKeepingDetail: async (req, res) => {
+        try {
+            const result = await reqCarBookKeeping.carBookKeepingDetail(req.params?.carBookKeepingId)
+            new Response().success(res,result)
+        } catch (error) {
+            new Response().fail(res,error)
+        }
     }
 }
 

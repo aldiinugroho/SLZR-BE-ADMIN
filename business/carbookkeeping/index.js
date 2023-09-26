@@ -97,10 +97,21 @@ const detail = async (reqData = new ModelRequestCarBookKeepingDetail({})) => {
   }
 }
 
+const carBookKeepingDetail = async (reqData = "") => {
+  try {
+    // get car detail
+    const result = await serviceCarBookKeeping.carBookKeepingDetail(reqData)
+    return result
+  } catch (error) {
+    throw error
+  }
+}
+
 module.exports = {
   paymentToolsList,
   create,
   cancel,
   listByCarStatus,
-  detail
+  detail,
+  carBookKeepingDetail
 }
