@@ -9,5 +9,6 @@ router.get("/payment-tools/list", middleware, carbookkeeping.paymentToolsList);
 
 // POST
 router.post("/create", middleware, carbookkeeping.create);
+router.patch("/cancel", middleware, carbookkeeping.cancel);
 
 module.exports = router;

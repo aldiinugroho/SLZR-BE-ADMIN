@@ -1,6 +1,7 @@
 const { ModelCarBookKeepingCreate } = require("../../models/request/carbookkeeping/create")
 const serviceCarBookKeeping = require("../../models/service/carbookkeeping")
 const serviceCar = require("../../models/service/car")
+const { ModelRequestCarBookKeepingCancel } = require("../../models/request/carbookkeeping/cancel")
 
 const paymentToolsList = async () => {
   try {
@@ -59,7 +60,18 @@ const create = async (reqData = new ModelCarBookKeepingCreate({})) => {
   }
 }
 
+const cancel = async (reqData = new ModelRequestCarBookKeepingCancel({})) => {
+  try {
+    // cancel car book keeping
+    const result = await serviceCarBookKeeping.cancelCarBookKeeping(reqData)
+    return result
+  } catch (error) {
+    throw error
+  }
+}
+
 module.exports = {
   paymentToolsList,
-  create
+  create,
+  cancel
 }
