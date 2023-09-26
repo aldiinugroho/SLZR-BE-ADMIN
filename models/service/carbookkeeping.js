@@ -104,12 +104,22 @@ async function getListByCarStatus(reqData = new ModelRequestListByCarStatus({}))
               model: msCarBookKeepingPaymentTools
             },
             {
-              model: msCarBuyFrom
+              model: msCarBuyFrom,
+              // where: {
+              //   [Op.and]: [
+              //     { carBuyFromId: 'CBFI1' }, // Exclude 'CBFI2'
+              //   ],
+              // },
             },
             {
               model: msCarLeasing
             },
-          ]
+          ],
+          // where: {
+          //   [Op.and]: [
+          //     {carBookKeepingStatus: 'ON PROGRESS'}
+          //   ]
+          // },
         },
       ],
       order: [
