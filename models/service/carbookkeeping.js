@@ -112,10 +112,15 @@ async function getListByCarStatus(reqData = new ModelRequestListByCarStatus({}))
           ]
         },
       ],
+      order: [
+        ['createdAt', 'DESC'],
+        [msCarBookKeeping, 'updatedAt', 'DESC']
+      ],
       nest: true
     })
     return result
   } catch (error) {
+    console.log(error);
     throw "Error msCarBookKeepingPaymentTools carBookKeepingPaymentToolsList - db execution"
   }
 }
