@@ -32,7 +32,7 @@ const msCar = sequelize.define('msCar', {
     allowNull: false,
   },
   carDescription: {
-    type: DataTypes.STRING,
+    type: DataTypes.TEXT,
     allowNull: false,
   },
   carTransmission: {
