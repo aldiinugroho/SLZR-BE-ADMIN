@@ -65,7 +65,15 @@ const carbookkeeping = {
         } catch (error) {
             new Response().fail(res,error)
         }
-    }
+    },
+    listByCarStatusOnlyOnProgress: async (req, res) => {
+        try {
+            const result = await reqCarBookKeeping.listByCarStatusOnlyOnProgress(req.params?.carBuyFromId,req.decodedToken.userId)
+            new Response().success(res,result)
+        } catch (error) {
+            new Response().fail(res,error)
+        }
+    },
 }
 
 module.exports = carbookkeeping

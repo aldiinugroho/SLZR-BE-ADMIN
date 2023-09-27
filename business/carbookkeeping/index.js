@@ -107,11 +107,22 @@ const carBookKeepingDetail = async (reqData = "") => {
   }
 }
 
+const listByCarStatusOnlyOnProgress = async (reqData = "",userId = "") => {
+  try {
+    // get car list by carbuyfromid and car status on progress
+    const result = await serviceCarBookKeeping.getListByCarStatusOnlyOnProgress(reqData,userId)
+    return result
+  } catch (error) {
+    throw error
+  }
+}
+
 module.exports = {
   paymentToolsList,
   create,
   cancel,
   listByCarStatus,
   detail,
-  carBookKeepingDetail
+  carBookKeepingDetail,
+  listByCarStatusOnlyOnProgress
 }

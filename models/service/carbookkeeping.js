@@ -216,11 +216,74 @@ async function carBookKeepingDetail(reqData = "") {
   }
 }
 
+async function getListByCarStatusOnlyOnProgress(reqData = "",userId = "") {
+  try {
+    // get list
+    const result = await msCar.findAll({
+      where: {
+        [Op.and]: [
+          {userId: userId},
+          {carStatus: "BOOKED"},
+          {softdelete: false}
+        ]
+      },
+      include: [
+        {
+          model: msShowroom
+        },
+        {
+          model: msCarBrand
+        },
+        {
+          model: msCarImage
+        },
+        {
+          model: msCarOtherPrice
+        },
+        {
+          model: msCarBookKeeping,
+          include: [
+            {
+              model: msCarBookKeepingPaymentTools
+            },
+            {
+              model: msCarBuyFrom,
+              where: {
+                [Op.and]: [
+                  { carBuyFromId: reqData }, // Exclude 'CBFI2'
+                ],
+              },
+            },
+            {
+              model: msCarLeasing
+            },
+          ],
+          where: {
+            [Op.and]: [
+              {carBookKeepingStatus: 'ON PROGRESS'}
+            ]
+          },
+        },
+      ],
+      order: [
+        ['createdAt', 'DESC'],
+        [msCarBookKeeping, 'updatedAt', 'DESC']
+      ],
+      nest: true
+    })
+    return result
+  } catch (error) {
+    console.log(error);
+    throw "Error msShowroom|msCarBrand|msCarImage|msCarOtherPrice|msCarBookKeeping|msCarBookKeepingPaymentTools|msCarBuyFrom|msCarLeasing getListByCarStatusOnlyOnProgress - db execution"
+  }
+}
+
 module.exports = {
   carBookKeepingPaymentToolsList,
   carBookKeepingXCarLeasingCreate,
   cancelCarBookKeeping,
   getListByCarStatus,
   getDetail,
-  carBookKeepingDetail
+  carBookKeepingDetail,
+  getListByCarStatusOnlyOnProgress
 }
