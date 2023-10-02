@@ -350,7 +350,7 @@ async function updateSold(reqData = new ModelRequestMarkSold({})) {
     })
     // mark car book keeping SUCCESS
     await msCarBookKeeping.update({
-      carStatus: "SUCCESS"
+      carBookKeepingStatus: "SUCCESS"
     }, {
       where: {
         carBookKeepingId: reqData.carBookKeepingId
