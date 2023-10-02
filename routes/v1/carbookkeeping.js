@@ -17,5 +17,6 @@ router.post("/create", middleware, carbookkeeping.create);
 // PATCH
 router.patch("/cancel", middleware, carbookkeeping.cancel);
 router.patch("/update-web", middleware, carbookkeeping.updateWeb);
+router.patch("/mark-sold", middleware, carbookkeeping.updateSold);
 
 module.exports = router;

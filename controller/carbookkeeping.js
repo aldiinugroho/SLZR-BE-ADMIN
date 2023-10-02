@@ -5,6 +5,7 @@ const { ModelRequestCarBookKeepingCancel } = require("../models/request/carbookk
 const { ModelRequestListByCarStatus } = require("../models/request/carbookkeeping/listbycarstatus")
 const { ModelRequestCarBookKeepingDetail } = require("../models/request/carbookkeeping/detail")
 const { ModelRequestUpdateWeb } = require("../models/request/carbookkeeping/updateweb")
+const { ModelRequestMarkSold } = require("../models/request/carbookkeeping/marksold")
 // const Kurasi = require("../outservice/kurasi/kurasi")
 
 const carbookkeeping = {
@@ -78,8 +79,17 @@ const carbookkeeping = {
     updateWeb: async (req, res) => {
         try {
             const reqData = new ModelRequestUpdateWeb(req.body)
-            await reqCarBookKeeping.updateweb(reqData)
+            await reqCarBookKeeping.updateWeb(reqData)
             new Response().success(res)
+        } catch (error) {
+            new Response().fail(res,error)
+        }
+    },
+    updateSold: async (req, res) => {
+        try {
+            const reqData = new ModelRequestMarkSold(req.body)
+            await reqCarBookKeeping.updateSold(reqData)
+            new Response().success(res,reqData)
         } catch (error) {
             new Response().fail(res,error)
         }
