@@ -4,6 +4,7 @@ const serviceCar = require("../../models/service/car")
 const { ModelRequestCarBookKeepingCancel } = require("../../models/request/carbookkeeping/cancel")
 const { ModelRequestListByCarStatus } = require("../../models/request/carbookkeeping/listbycarstatus")
 const { ModelRequestCarBookKeepingDetail } = require("../../models/request/carbookkeeping/detail")
+const { ModelRequestUpdateWeb } = require("../../models/request/carbookkeeping/updateweb")
 
 const paymentToolsList = async () => {
   try {
@@ -29,6 +30,12 @@ const create = async (reqData = new ModelCarBookKeepingCreate({})) => {
     // carBuyFromId
     // CBFI1: DIRECT
     // CBFI2: WEBSITE
+    
+    // carbookkeeping stat:
+    // CANCEL | ON PROGRESS | SUCCESS
+
+    // car stat:
+    // READY | BOOKED | SOLD
 
     // only for direct
     if (reqData.carBuyFromId === "CBFI1") {
@@ -117,6 +124,14 @@ const listByCarStatusOnlyOnProgress = async (reqData = "",userId = "") => {
   }
 }
 
+const updateweb = async (reqData = new ModelRequestUpdateWeb({})) => {
+  try {
+    await serviceCarBookKeeping.updateWeb(reqData)
+  } catch (error) {
+    throw error
+  }
+}
+
 module.exports = {
   paymentToolsList,
   create,
@@ -124,5 +139,6 @@ module.exports = {
   listByCarStatus,
   detail,
   carBookKeepingDetail,
-  listByCarStatusOnlyOnProgress
+  listByCarStatusOnlyOnProgress,
+  updateweb
 }

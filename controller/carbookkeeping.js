@@ -4,6 +4,7 @@ const { ModelCarBookKeepingCreate } = require("../models/request/carbookkeeping/
 const { ModelRequestCarBookKeepingCancel } = require("../models/request/carbookkeeping/cancel")
 const { ModelRequestListByCarStatus } = require("../models/request/carbookkeeping/listbycarstatus")
 const { ModelRequestCarBookKeepingDetail } = require("../models/request/carbookkeeping/detail")
+const { ModelRequestUpdateWeb } = require("../models/request/carbookkeeping/updateweb")
 // const Kurasi = require("../outservice/kurasi/kurasi")
 
 const carbookkeeping = {
@@ -70,6 +71,15 @@ const carbookkeeping = {
         try {
             const result = await reqCarBookKeeping.listByCarStatusOnlyOnProgress(req.params?.carBuyFromId,req.decodedToken.userId)
             new Response().success(res,result)
+        } catch (error) {
+            new Response().fail(res,error)
+        }
+    },
+    updateWeb: async (req, res) => {
+        try {
+            const reqData = new ModelRequestUpdateWeb(req.body)
+            await reqCarBookKeeping.updateweb(reqData)
+            new Response().success(res)
         } catch (error) {
             new Response().fail(res,error)
         }

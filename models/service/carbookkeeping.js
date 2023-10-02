@@ -12,6 +12,7 @@ const msCarImage = require("../db/mscarimage");
 const msCarOtherPrice = require("../db/mscarotherprice");
 const msCarBuyFrom = require("../db/mscarbuyfrom");
 const { ModelRequestCarBookKeepingDetail } = require("../request/carbookkeeping/detail");
+const { ModelRequestUpdateWeb } = require("../request/carbookkeeping/updateweb");
 
 async function carBookKeepingPaymentToolsList() {
   try {
@@ -278,6 +279,62 @@ async function getListByCarStatusOnlyOnProgress(reqData = "",userId = "") {
   }
 }
 
+async function updateWeb(reqData = new ModelRequestUpdateWeb({})) {
+  const t = await sequelize.transaction();
+  try {
+    await msCarBookKeeping.update({
+      carBookKeepingPaymentToolsId: reqData.carBookKeepingPaymentToolsId,
+      carBookKeepingName: reqData.carBookKeepingName,
+      carBookKeepingPhone: reqData.carBookKeepingPhone,
+      carBookKeepingKTP: reqData.carBookKeepingKTP,
+      carBookKeepingSoldPrice: reqData.carBookKeepingSoldPrice
+    },{
+      where: {
+        carBookKeepingId: reqData.carBookKeepingId
+      },
+      transaction: t
+    })
+
+    // using kredit
+    // update for type kredit/CBKPT01
+    // make carbookkeeping still ON PROGRESS
+    // make car still BOOKED
+    if (reqData.carLeasing !== null && reqData.carBookKeepingPaymentToolsId === "CBKPT01") {
+      await msCarLeasing.create(reqData.carLeasing, { transaction: t })
+    }
+
+    // using cash
+    // update for type cash/CBKPT02
+    // make carbookkeeping SUCCESS
+    // make car SOLD
+    if (reqData.carLeasing === null && reqData.carBookKeepingPaymentToolsId === "CBKPT02") {
+      // make carbookkeeping stat success
+      await msCarBookKeeping.update({
+        carBookKeepingStatus: "SUCCESS"
+      }, { 
+        where: {
+          carBookKeepingId: reqData.carBookKeepingId
+        },
+        transaction: t
+      })
+      // make car stat SOLD
+      await msCar.update({
+        carStatus: "SOLD"
+      }, { 
+        where: {
+          carId: reqData.carId
+        },
+        transaction: t
+      })
+    }
+    await t.commit();
+  } catch (error) {
+    await t.rollback();
+    console.log(error);
+    throw "Error msCar|msCarBookKeeping updateWebKredit - db execution"
+  }
+}
+
 module.exports = {
   carBookKeepingPaymentToolsList,
   carBookKeepingXCarLeasingCreate,
@@ -285,5 +342,6 @@ module.exports = {
   getListByCarStatus,
   getDetail,
   carBookKeepingDetail,
-  getListByCarStatusOnlyOnProgress
+  getListByCarStatusOnlyOnProgress,
+  updateWeb
 }
