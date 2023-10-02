@@ -135,7 +135,7 @@ const updateWeb = async (reqData = new ModelRequestUpdateWeb({})) => {
 
 const updateSold = async (reqData = new ModelRequestMarkSold({})) => {
   try {
-    // await serviceCarBookKeeping.updateWeb(reqData)
+    await serviceCarBookKeeping.updateSold(reqData)
   } catch (error) {
     throw error
   }

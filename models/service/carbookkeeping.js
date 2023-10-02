@@ -13,6 +13,7 @@ const msCarOtherPrice = require("../db/mscarotherprice");
 const msCarBuyFrom = require("../db/mscarbuyfrom");
 const { ModelRequestCarBookKeepingDetail } = require("../request/carbookkeeping/detail");
 const { ModelRequestUpdateWeb } = require("../request/carbookkeeping/updateweb");
+const { ModelRequestMarkSold } = require("../request/carbookkeeping/marksold");
 
 async function carBookKeepingPaymentToolsList() {
   try {
@@ -331,7 +332,36 @@ async function updateWeb(reqData = new ModelRequestUpdateWeb({})) {
   } catch (error) {
     await t.rollback();
     console.log(error);
-    throw "Error msCar|msCarBookKeeping updateWebKredit - db execution"
+    throw "Error msCar|msCarBookKeeping updateWeb - db execution"
+  }
+}
+
+async function updateSold(reqData = new ModelRequestMarkSold({})) {
+  const t = await sequelize.transaction();
+  try {
+    // mark car SOLD
+    await msCar.update({
+      carStatus: "SOLD"
+    }, {
+      where: {
+        carId: reqData.carId
+      },
+      transaction: t
+    })
+    // mark car book keeping SUCCESS
+    await msCarBookKeeping.update({
+      carStatus: "SUCCESS"
+    }, {
+      where: {
+        carBookKeepingId: reqData.carBookKeepingId
+      },
+      transaction: t
+    })
+    await t.commit();
+  } catch (error) {
+    await t.rollback();
+    console.log(error);
+    throw "Error msCar|msCarBookKeeping updateSold - db execution"
   }
 }
 
@@ -343,5 +373,6 @@ module.exports = {
   getDetail,
   carBookKeepingDetail,
   getListByCarStatusOnlyOnProgress,
-  updateWeb
+  updateWeb,
+  updateSold
 }

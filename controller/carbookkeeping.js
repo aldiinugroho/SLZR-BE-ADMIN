@@ -89,7 +89,7 @@ const carbookkeeping = {
         try {
             const reqData = new ModelRequestMarkSold(req.body)
             await reqCarBookKeeping.updateSold(reqData)
-            new Response().success(res,reqData)
+            new Response().success(res)
         } catch (error) {
             new Response().fail(res,error)
         }
