@@ -6,6 +6,8 @@ const { ModelRequestListByCarStatus } = require("../../models/request/carbookkee
 const { ModelRequestCarBookKeepingDetail } = require("../../models/request/carbookkeeping/detail")
 const { ModelRequestUpdateWeb } = require("../../models/request/carbookkeeping/updateweb")
 const { ModelRequestMarkSold } = require("../../models/request/carbookkeeping/marksold")
+const { ModelRequestMidtransPaymentWithBank } = require("../../models/request/midtrans/paymentwithbank")
+const reqMidtrans = require('../midtrans');
 
 const paymentToolsList = async () => {
   try {
@@ -62,13 +64,24 @@ const create = async (reqData = new ModelCarBookKeepingCreate({})) => {
 
     // only for website
     if (reqData.carBuyFromId === "CBFI2") {
-      // insert to car book keeping
-      await serviceCarBookKeeping.carBookKeepingXCarLeasingCreate(reqData)
-      // set car to BOOKED
-      await serviceCar.updateCarStatus({
-        carId: reqData.carId,
-        carStatus: "BOOKED"
+      // // insert to car book keeping
+      // await serviceCarBookKeeping.carBookKeepingXCarLeasingCreate(reqData)
+      // // set car to BOOKED
+      // await serviceCar.updateCarStatus({
+      //   carId: reqData.carId,
+      //   carStatus: "BOOKED"
+      // })
+
+      // make payment midtrans
+      const reqDataPayment = new ModelRequestMidtransPaymentWithBank({
+        phone: reqData.carBookKeepingPhone,
+        order_id: reqData.carBookKeepingId,
+        gross_amount: reqData.carBookKeepingBookedFee,
+        name: reqData.carBookKeepingName,
+        bank: "bca"
       })
+      const result = await reqMidtrans.paymentWithBankVA(reqDataPayment)
+      return result
     }
   } catch (error) {
     throw error

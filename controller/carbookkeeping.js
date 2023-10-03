@@ -21,8 +21,8 @@ const carbookkeeping = {
     create: async (req, res) => {
         try {
             const reqData = new ModelCarBookKeepingCreate(req.body)
-            await reqCarBookKeeping.create(reqData)
-            new Response().success(res)
+            const result = await reqCarBookKeeping.create(reqData)
+            new Response().success(res,result)
         } catch (error) {
             new Response().fail(res,error)
         }
