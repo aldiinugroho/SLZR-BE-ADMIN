@@ -24,7 +24,7 @@ class ModelResponseMidtransPaymentWithBank {
     this.transaction_status = transaction_status
     this.fraud_status = fraud_status
     this.va_number = va_numbers[0]?.va_number
-    this.va_bank = va_numbers[0]?.va_bank
+    this.va_bank = va_numbers[0]?.bank
     this.expiry_time = expiry_time
   }
 }
