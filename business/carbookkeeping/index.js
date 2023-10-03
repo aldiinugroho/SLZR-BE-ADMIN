@@ -1,6 +1,7 @@
 const { ModelCarBookKeepingCreate } = require("../../models/request/carbookkeeping/create")
 const serviceCarBookKeeping = require("../../models/service/carbookkeeping")
 const serviceCar = require("../../models/service/car")
+const serviceTransactionPayment = require("../../models/service/transactionpayment")
 const { ModelRequestCarBookKeepingCancel } = require("../../models/request/carbookkeeping/cancel")
 const { ModelRequestListByCarStatus } = require("../../models/request/carbookkeeping/listbycarstatus")
 const { ModelRequestCarBookKeepingDetail } = require("../../models/request/carbookkeeping/detail")
@@ -81,10 +82,16 @@ const create = async (reqData = new ModelCarBookKeepingCreate({})) => {
         bank: "bca"
       })
       const result = await reqMidtrans.paymentWithBankVA(reqDataPayment)
-
-      // make data to table mstransactionpayment
-      
-
+      // make data to table mstransactionpayment && update car book keeping
+      await serviceTransactionPayment.createMsTransactionPaymentXUpdateMsCarBookKeepingTPID({
+        carBookKeepingId: result.order_id,
+        midtransTransactionId: result.transaction_id,
+        transactionPaymentStatus: result.transaction_status,
+        transactionPaymentVA: result.va_number,
+        transactionPaymentBank: result.va_bank,
+        transactionPaymentAmount: reqData.carBookKeepingBookedFee,
+        transactionPaymentExpiry: result.expiry_time
+      })
       return result
     }
   } catch (error) {
