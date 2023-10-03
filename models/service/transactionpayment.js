@@ -17,7 +17,7 @@ async function createMsTransactionPaymentXUpdateMsCarBookKeepingTPID({
     const data = {
       transactionPaymentId: new CustomUuid().v4(),
       midtransTransactionId,
-      transactionPaymentStatus,
+      transactionPaymentStatus: "PENDING",
       transactionPaymentBank,
       transactionPaymentAmount,
       transactionPaymentVA,
@@ -35,7 +35,8 @@ async function createMsTransactionPaymentXUpdateMsCarBookKeepingTPID({
     await t.commit();
   } catch (error) {
     await t.rollback();
-    throw "Error msTransactionPayment create - db execution"
+    console.log(error);
+    throw "Error msTransactionPayment|msCarBookKeeping createMsTransactionPaymentXUpdateMsCarBookKeepingTPID - db execution"
   }
 }
 
