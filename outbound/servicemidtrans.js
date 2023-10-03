@@ -1,5 +1,6 @@
 const axios = require('axios');
-const { ModelRequestMidtransPaymentWithBank } = require("../models/request/midtrans/paymentwithbank")
+const { ModelRequestMidtransPaymentWithBank } = require("../models/request/midtrans/paymentwithbank");
+const { ModelResponseMidtransPaymentWithBank } = require('../models/response/midtrans/paymentwithbank');
 
 const servicemidtrans = {
   charge: async (reqData = new ModelRequestMidtransPaymentWithBank({})) => {
@@ -15,9 +16,18 @@ const servicemidtrans = {
         headers: headers,
         data: reqData
       })
-      return rawresult.data
+      const dataToMap = rawresult.data
+      console.log(dataToMap);
+      const result = new ModelResponseMidtransPaymentWithBank({
+        transaction_id: dataToMap?.transaction_id,
+        order_id: dataToMap?.order_id,
+        transaction_status: dataToMap?.transaction_status,
+        va_numbers: dataToMap?.va_numbers,
+        expiry_time: dataToMap?.expiry_time,
+        fraud_status: dataToMap?.fraud_status
+      })
+      return result
     } catch (error) {
-      console.log(error);
       throw "error charge - outbound servicemidtrans"
     }
   }

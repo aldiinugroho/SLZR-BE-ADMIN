@@ -64,13 +64,13 @@ const create = async (reqData = new ModelCarBookKeepingCreate({})) => {
 
     // only for website
     if (reqData.carBuyFromId === "CBFI2") {
-      // // insert to car book keeping
-      // await serviceCarBookKeeping.carBookKeepingXCarLeasingCreate(reqData)
-      // // set car to BOOKED
-      // await serviceCar.updateCarStatus({
-      //   carId: reqData.carId,
-      //   carStatus: "BOOKED"
-      // })
+      // insert to car book keeping
+      await serviceCarBookKeeping.carBookKeepingXCarLeasingCreate(reqData)
+      // set car to BOOKED
+      await serviceCar.updateCarStatus({
+        carId: reqData.carId,
+        carStatus: "BOOKED"
+      })
 
       // make payment midtrans
       const reqDataPayment = new ModelRequestMidtransPaymentWithBank({
@@ -81,9 +81,18 @@ const create = async (reqData = new ModelCarBookKeepingCreate({})) => {
         bank: "bca"
       })
       const result = await reqMidtrans.paymentWithBankVA(reqDataPayment)
+
+      // make data to table mstransactionpayment
+      
+
       return result
     }
   } catch (error) {
+    const reqDataCancel = new ModelRequestCarBookKeepingCancel({
+      carId: reqData.carId,
+      carBookKeepingId: reqData.carBookKeepingId
+    })
+    await cancel(reqDataCancel)
     throw error
   }
 }
