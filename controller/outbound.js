@@ -1,13 +1,13 @@
 const { ModelRequestMidtransPaymentNotification } = require("../models/request/midtrans/paymentnotification")
 const { Response } = require("../response")
-// const serviceMsAccount = require("../models/service/account")
-// const Kurasi = require("../outservice/kurasi/kurasi")
+const reqOutbound = require("../business/outbound")
 
 const outbound = {
   midtransPaymentNotification: async (req, res) => {
     try {
       const reqData = new ModelRequestMidtransPaymentNotification(req.body)
-      new Response().success(res,reqData)
+      await reqOutbound.midtransPaymentNotification(reqData)
+      new Response().success(res)
     } catch (error) {
       new Response().fail(res,error)
     }
