@@ -2,6 +2,7 @@ const { sequelize, Op } = require("../../config/sequelize");
 const msCarBookKeepingPaymentTools = require("../db/mscarbookkeepingpaymenttools")
 const msCarBookKeeping = require("../db/mscarbookkeeping")
 const msCarLeasing = require("../db/mscarleasing");
+const msTransactionPayment = require("../db/mstransactionpayment");
 const { ModelCarBookKeepingCreate } = require("../request/carbookkeeping/create");
 const { ModelRequestCarBookKeepingCancel } = require("../request/carbookkeeping/cancel");
 const msCar = require("../db/mscar");
@@ -116,6 +117,9 @@ async function getListByCarStatus(reqData = new ModelRequestListByCarStatus({}))
             {
               model: msCarLeasing
             },
+            {
+              model: msTransactionPayment
+            },
           ],
           // where: {
           //   [Op.and]: [
@@ -173,6 +177,9 @@ async function getDetail(reqData = new ModelRequestCarBookKeepingDetail({})) {
             {
               model: msCarLeasing
             },
+            {
+              model: msTransactionPayment
+            },
           ]
         },
       ],
@@ -205,6 +212,9 @@ async function carBookKeepingDetail(reqData = "") {
         },
         {
           model: msCarLeasing
+        },
+        {
+          model: msTransactionPayment
         },
       ],
       order: [
@@ -258,6 +268,9 @@ async function getListByCarStatusOnlyOnProgress(reqData = "",userId = "") {
             },
             {
               model: msCarLeasing
+            },
+            {
+              model: msTransactionPayment
             },
           ],
           where: {
