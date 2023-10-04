@@ -1,4 +1,5 @@
 const secretKey = {
+    "ENV_NAME": process.env.ENV_NAME,
     "DB_NAME": process.env.DB_NAME,
     "DB_USERNAME": process.env.DB_USERNAME,
     "DB_PASSWORD": process.env.DB_PASSWORD,

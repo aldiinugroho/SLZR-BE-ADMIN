@@ -1,4 +1,5 @@
-require('dotenv').config();
+require('dotenv').config({ path: process.env.NODE_ENV === undefined ? '.env' : `.env.${process.env.NODE_ENV}` })
+
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
@@ -6,7 +7,8 @@ const app = express();
 const port = 3000;
 const rateLimit = require('express-rate-limit');
 const DBConnection = require('./config/sequelize')
-const cors = require('cors')
+const cors = require('cors');
+const secretKey = require('./constant/secretkey');
 
 const limiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
@@ -42,5 +44,5 @@ fs.readdirSync(v1route).forEach((file) => {
 });
 
 app.listen(port, () => {
-    console.log(`app listening on port ${port}`)
+    console.log(`${secretKey.ENV_NAME}|app listening on port ${port}`)
 })

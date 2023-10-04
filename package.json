@@ -6,7 +6,9 @@
   "scripts": {
     "pushprod": "node index.js",
     "pushdev": "node index.js",
-    "dev": "nodemon index.js",
+    "local": "nodemon index.js",
+    "stagging": "NODE_ENV=stagging nodemon index.js",
+    "prod": "NODE_ENV=prod nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
