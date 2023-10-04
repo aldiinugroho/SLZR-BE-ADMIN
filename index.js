@@ -1,4 +1,6 @@
-require('dotenv').config({ path: process.env.NODE_ENV === undefined ? '.env' : `.env.${process.env.NODE_ENV}` })
+// require('dotenv').config({ path: process.env.NODE_ENV === undefined ? '.env' : `.env.${process.env.NODE_ENV}` })
+require('dotenv').config()
+
 
 const express = require('express');
 const fs = require('fs');
