@@ -17,7 +17,10 @@ class ModelRequestMidtransPaymentNotification {
       this.transaction_status = "PAID"
     } else if (transaction_status === "expire") {
       this.transaction_status = "CANCEL"
-    } else {
+    } else if (transaction_status === "deny" ||
+      transaction_status === "failure" ||
+      transaction_status === "cancel"
+    ) {
       this.transaction_status = "CANCEL"
     }
     this.payment_type = payment_type
