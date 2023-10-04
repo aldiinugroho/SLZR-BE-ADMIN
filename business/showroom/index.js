@@ -1,4 +1,4 @@
-const Configpass = require("../../config/configPass");
+const Configpass = require("../../config/configpass");
 const { ModelRequestShowroomCreate } = require("../../models/request/showroom/create");
 const { ModelRequestShowroomDelete } = require("../../models/request/showroom/delete");
 const { ModelRequestShowroomDetail } = require("../../models/request/showroom/detail");
