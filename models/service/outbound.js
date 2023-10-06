@@ -61,8 +61,7 @@ const lzrauto = {
         ],
         include: [
           {
-            model: msCarImage,
-            limit: 1
+            model: msCarImage
           },
         ]
       })
