@@ -12,6 +12,14 @@ const outbound = {
       new Response().fail(res,error)
     }
   },
+  listCar: async (req, res) => {
+    try {
+      const result = await reqOutbound.lzrauto.listCar(req?.offset)
+      new Response().success(res,result)
+    } catch (error) {
+      new Response().fail(res,error)
+    }
+  },
 }
 
 module.exports = outbound
