@@ -18,7 +18,15 @@ const lzrauto = {
     } catch (error) {
       throw error
     }
-  }
+  },
+  detailCar: async (reqData = "") => {
+    try {
+      const result = await serviceOutbound.lzrauto.getDetailCar(reqData)
+      return result
+    } catch (error) {
+      throw error
+    }
+  },
 }
 
 module.exports = {
