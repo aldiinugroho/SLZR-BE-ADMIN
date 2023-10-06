@@ -10,7 +10,7 @@ router.post("/midtrans-payment-notification", outbound.midtransPaymentNotificati
 
 // GET
 // LZR AUTO
-router.get("/lzrauto/list-car/:offset", outbound.listCar);
-router.get("/lzrauto/detail-car/:carId", outbound.detailCar);
+router.get("/lzrauto/list-car/:offset", middleware, outbound.listCar);
+router.get("/lzrauto/detail-car/:carId", middleware, outbound.detailCar);
 
 module.exports = router;
