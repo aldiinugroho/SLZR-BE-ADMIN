@@ -6,14 +6,14 @@ const lzrauto = {
   getListCar: async (reqData = 0) => {
     try {
       const result = await msCar.findAll({
+        limit: 5,
+        offset: parseInt(reqData),
         where: {
           [Op.and]: [
             {carStatus: "READY"},
             {softdelete: false}
           ]
         },
-        offset: reqData,
-        limit: 5,
         attributes: [
           'carId', 
           'carName',
@@ -35,6 +35,7 @@ const lzrauto = {
       })
       return result
     } catch (error) {
+      console.log(error);
       throw "Error msCar|msCarImage lzrauto getListCar - db execution"
     }
   }

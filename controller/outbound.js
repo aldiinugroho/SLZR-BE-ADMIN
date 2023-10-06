@@ -14,7 +14,7 @@ const outbound = {
   },
   listCar: async (req, res) => {
     try {
-      const result = await reqOutbound.lzrauto.listCar(req?.offset)
+      const result = await reqOutbound.lzrauto.listCar(req.params?.offset)
       new Response().success(res,result)
     } catch (error) {
       new Response().fail(res,error)
