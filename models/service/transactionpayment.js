@@ -45,6 +45,7 @@ async function createMsTransactionPaymentXUpdateMsCarBookKeepingTPID({
 async function updateMidtransNotification(reqData = new ModelRequestMidtransPaymentNotification({})) {
   const t = await sequelize.transaction();
   try {
+    if (reqData.transaction_status === "PENDING") {return}
     if (reqData.transaction_status === "PAID") {
       // transaction status = PAID
       // update transaction payment status = PAID

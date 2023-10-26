@@ -1,4 +1,4 @@
-const Configpass = require("../../config/configPass");
+const Configpass = require("../../config/configpass");
 const { ModelRequestCarCreate } = require("../../models/request/car/create");
 const { ModelRequestCarDetail } = require("../../models/request/car/detail");
 const { ModelRequestCarUpdate } = require("../../models/request/car/update");

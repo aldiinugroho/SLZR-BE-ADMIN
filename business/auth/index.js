@@ -1,4 +1,4 @@
-const Configpass = require("../../config/configPass");
+const Configpass = require("../../config/configpass");
 const { ModelRequestAuthCreateUser } = require("../../models/request/auth/create");
 const { ModelRequestAuthLogin } = require("../../models/request/auth/login");
 const serviceUser = require("../../models/service/user")
